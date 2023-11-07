@@ -14,7 +14,6 @@ class VideoScreen extends StatelessWidget {
           shrinkWrap: true,
           itemCount: 2,
           itemBuilder: (context, index) {
-            print(index);
             return VideoItem(
               videoPlayerController:
                   VideoPlayerController.asset("assets/video_${index + 1}.mp4"),

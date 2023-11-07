@@ -1,6 +1,4 @@
 import 'package:chewie/chewie.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:video_player/video_player.dart';
@@ -23,6 +21,8 @@ class VideoItem extends StatefulWidget {
 
 class _VideoItemsState extends State<VideoItem> {
   late ChewieController _chewieController;
+  bool favorite = false;
+  bool toSave = false;
 
   @override
   void initState() {
@@ -63,25 +63,68 @@ class _VideoItemsState extends State<VideoItem> {
             controller: _chewieController,
           ),
           Container(
-            color: Colors.blue,
             alignment: Alignment.centerRight,
-            height: 350,
+            height: 430,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.network(
+                            'https://picsum.photos/200',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 22.0,
+                          height: 23.0,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 20.0,
+                          ),
+                        )
+                      ],
+                    )),
+                Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: Column(
                     children: [
-                      SvgPicture.asset(
-                        "assets/heart-solid.svg",
-                        height: 30,
-                        width: 30,
-                        colorFilter:
-                            ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            favorite = !favorite;
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          "assets/heart-solid.svg",
+                          height: 30,
+                          width: 30,
+                          colorFilter: ColorFilter.mode(
+                              favorite ? Colors.red : Colors.white,
+                              BlendMode.srcIn),
+                        ),
                       ),
-                      Text("14k", style: TextStyle(fontSize: 18.0),)
+                      const Text(
+                        "14k",
+                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      )
                     ],
                   ),
                 ),
@@ -94,30 +137,57 @@ class _VideoItemsState extends State<VideoItem> {
                         height: 30,
                         width: 30,
                         colorFilter:
-                            ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                            const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                       ),
-                      Text("14k", style: TextStyle(fontSize: 18.0),)
+                      const Text(
+                        "10k",
+                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      )
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 13.0),
-                  child: SvgPicture.asset(
-                    "assets/bookmark.svg",
-                    height: 30,
-                    width: 30,
-                    colorFilter:
-                        ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            toSave = !toSave;
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          "assets/bookmark.svg",
+                          height: 30,
+                          width: 30,
+                          colorFilter: ColorFilter.mode(
+                              toSave ? Colors.orangeAccent : Colors.white,
+                              BlendMode.srcIn),
+                        ),
+                      ),
+                      const Text(
+                        "19k",
+                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      )
+                    ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0),
-                  child: SvgPicture.asset(
-                    "assets/share.svg",
-                    height: 30,
-                    width: 30,
-                    colorFilter:
-                        ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/share.svg",
+                        height: 30,
+                        width: 30,
+                        colorFilter:
+                            const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                      ),
+                      const Text(
+                        "30k",
+                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      )
+                    ],
                   ),
                 ),
                 Padding(
@@ -126,11 +196,11 @@ class _VideoItemsState extends State<VideoItem> {
                     width: 35,
                     height: 35,
                     clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                     ),
                     child: Image.network(
-                      'https://picsum.photos/seed/picsum/200/200',
+                      'https://picsum.photos/200/300',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -142,8 +212,8 @@ class _VideoItemsState extends State<VideoItem> {
             alignment: Alignment.centerLeft,
             // color: Colors.green,
             height: 150,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+            child: const Padding(
+              padding: EdgeInsets.only(left: 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,6 +234,20 @@ class _VideoItemsState extends State<VideoItem> {
                   ),
                   Text(
                     '#bushcraft #build #camp',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '#pimple #fyp #pop #satisfying',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '#foryou #fyp #foryoupage #foryou',
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
