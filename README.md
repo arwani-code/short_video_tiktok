@@ -1,4 +1,4 @@
-# short_video_tiktok with flutter
+# Short video tiktok with flutter
 
 A new Flutter project.
 
